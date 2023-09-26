@@ -6,9 +6,9 @@ import json
 
 class TaskBase(law.Task):
     
-    config_dir = luigi.Parameter(default="/work/rseidita/CAT_hackathon/AnalysisConfigs/configs/test_law")
-    datasets_dir = luigi.Parameter(default="/work/rseidita/CAT_hackathon/AnalysisConfigs/configs/test_law/datasets")
-    datasets_definition = luigi.Parameter(default="/work/rseidita/CAT_hackathon/PocketCoffea/datasets/datasets_definitions_example.json")
+    config_dir = luigi.Parameter(default=os.getcwd())
+    datasets_dir = luigi.Parameter(default=os.getcwd()+"/datasets")
+    datasets_definition = luigi.Parameter(default=os.getcwd()+"/datasets/datasets_definitions_example.json")
 
 class CreateDataset(TaskBase):
     
