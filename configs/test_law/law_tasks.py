@@ -9,18 +9,26 @@ from pocket_coffea.utils.dataset import build_datasets
 class TaskBase(law.Task):
     
     cfg = luigi.Parameter()
-    datasets_definition = luigi.Parameter()
 
 class CreateDataset(TaskBase):
 
-    keys = luigi.Parameter()
+    keys = luigi.TupleParameter(default=[], description="Keys of the datasets to be created. If None, the keys are read from the datasets definition file.")
+    download = luigi.BoolParameter(default=False, description="If True, the datasets are downloaded from the DAS.")
+    overwrite = luigi.BoolParameter(default=False, description="If True, existing .json datasets are overwritten.")
+    check = luigi.BoolParameter(default=False, description="If True, the existence of the datasets is checked.")
+    split_by_year = luigi.BoolParameter(default=False, description="If True, the datasets are split by year.")
+    local_prefix = luigi.Parameter(default="", description="Prefix of the local path where the datasets are stored.")
+    whitelist_sites = luigi.TupleParameter(default=[], description="List of sites to be whitelisted.")
+    blacklist_sites = luigi.TupleParameter(default=[], description="List of sites to be blacklisted.")
+    regex_sites = luigi.Parameter(default="", description="Regex string to be used to filter the sites.")
+    parallelize = luigi.IntParameter(default=4, description="Number of parallel processes to be used to fetch the datasets.")
 
-    def read_datasets_definition(self, path):
-        with open(path, "r") as f:
+    def read_datasets_definition(self):
+        with open(os.path.abspath(self.cfg), "r") as f:
             return json.load(f)
     
     def output(self):
-        datasets = self.read_datasets_definition(self.datasets_definition)
+        datasets = self.read_datasets_definition()
         dataset_paths = set()
         for dataset in datasets.values():
             filepath = os.path.abspath(f"{dataset['json_output']}")
@@ -30,8 +38,19 @@ class CreateDataset(TaskBase):
         return [law.LocalFileTarget(d) for d in dataset_paths]
     
     def run(self):
-        args = {'cfg' : self.datasets_definition}
-        build_datasets(**args)
+        build_datasets(
+            self.cfg,
+            keys=self.keys,
+            download=self.download,
+            overwrite=self.overwrite,
+            check=self.check,
+            split_by_year=self.split_by_year,
+            local_prefix=self.local_prefix,
+            whitelist_sites=self.whitelist_sites,
+            blacklist_sites=self.blacklist_sites,
+            regex_sites=self.regex_sites,
+            parallelize=self.parallelize,
+        )
 
 class Runner(TaskBase):
 
