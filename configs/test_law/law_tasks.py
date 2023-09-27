@@ -6,12 +6,11 @@ import json
 
 class TaskBase(law.Task):
     
-    config_dir = luigi.Parameter(default=os.getcwd())
-    datasets_dir = luigi.Parameter(default=os.getcwd()+"/datasets")
-    datasets_definition = luigi.Parameter(default=os.getcwd()+"/datasets/datasets_definitions_example.json")
+    cfg = luigi.Parameter()
+    datasets_definition = luigi.Parameter()
 
 class CreateDataset(TaskBase):
-    
+
     def read_datasets_definition(self, path):
         with open(path, "r") as f:
             return json.load(f)
@@ -20,8 +19,9 @@ class CreateDataset(TaskBase):
         datasets = self.read_datasets_definition(self.datasets_definition)
         dataset_paths = set()
         for dataset in datasets.values():
-            dataset_paths.add(f"{self.datasets_dir}/{dataset['json_output']}")
-            dataset_paths.add(f"{self.datasets_dir}/{dataset['json_output']}".replace(".json", "_redirector.json"))
+            filepath = os.path.abspath(f"{dataset['json_output']}")
+            dataset_paths.add(filepath)
+            dataset_paths.add(f"{filepath}".replace(".json", "_redirector.json"))
             
         return [law.LocalFileTarget(d) for d in dataset_paths]
     
@@ -29,6 +29,14 @@ class CreateDataset(TaskBase):
         os.system(f"build_datasets.py --cfg {self.datasets_definition}")
 
 class Runner(TaskBase):
-    
+
+    output_dir = luigi.Parameter(default=os.path.join(os.getcwd(), "test"))
+
     def requires(self):
         return CreateDataset.req(self)
+
+    def output(self):
+        return law.LocalFileTarget(os.path.join(self.output_dir, "output_all.coffea"))
+
+    def run(self):
+        print("Running runner.py....")
