@@ -1,0 +1,330 @@
+plotting_style:
+  opts_sf:
+    Down:
+      color: red
+      elinewidth: 1
+      linestyle: dotted
+      linewidth: 1
+      marker: .
+      markersize: 1.0
+    Up:
+      color: red
+      elinewidth: 1
+      linestyle: dashed
+      linewidth: 1
+      marker: .
+      markersize: 1.0
+    nominal:
+      color: red
+      elinewidth: 1
+      linestyle: solid
+      linewidth: 1
+      marker: .
+      markersize: 1.0
+  efficiency:
+    2016_PostVFP:
+      Ele32_EleHT_pass:
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+      Ele32_EleHT_pass_highHT:
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+      Ele32_EleHT_pass_lowHT:
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+    2016_PreVFP:
+      Ele32_EleHT_pass:
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+      Ele32_EleHT_pass_highHT:
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+      Ele32_EleHT_pass_lowHT:
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+    '2017':
+      Ele32_EleHT_pass:
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+      Ele32_EleHT_pass_highHT:
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+      Ele32_EleHT_pass_lowHT:
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+    '2018':
+      Ele32_EleHT_pass:
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+      Ele32_EleHT_pass_highHT:
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+      Ele32_EleHT_pass_lowHT:
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+  opts_eff:
+    fontsize_map: 12

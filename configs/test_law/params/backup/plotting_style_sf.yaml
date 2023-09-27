@@ -1,0 +1,306 @@
+plotting_style:
+    opts_sf:
+        2016_PostVFP:
+            Ele32_EleHT_pass:
+                ElectronGood_eta:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_etaSC:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_phi:
+                    ylim:
+                    - 0
+                    - 1
+                ElectronGood_pt:
+                    ylim:
+                    - 0.85
+                    - 1
+                ht:
+                    ylim:
+                    - 0.4
+                    - 1.2
+                nJets:
+                    ylim:
+                    - 0.4
+                    - 1.2
+            Ele32_EleHT_pass_highHT:
+                ElectronGood_eta:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_etaSC:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_phi:
+                    ylim:
+                    - 0
+                    - 1
+                ElectronGood_pt:
+                    ylim:
+                    - 0.85
+                    - 1
+                ht:
+                    ylim:
+                    - 0.4
+                    - 1.2
+                nJets:
+                    ylim:
+                    - 0.4
+                    - 1.2
+            Ele32_EleHT_pass_lowHT:
+                ElectronGood_eta:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_etaSC:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_phi:
+                    ylim:
+                    - 0
+                    - 1
+                ElectronGood_pt:
+                    ylim:
+                    - 0.85
+                    - 1
+                ht:
+                    ylim:
+                    - 0.4
+                    - 1.2
+                nJets:
+                    ylim:
+                    - 0.4
+                    - 1.2
+        2016_PreVFP:
+            Ele32_EleHT_pass:
+                ElectronGood_eta:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_etaSC:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_phi:
+                    ylim:
+                    - 0
+                    - 1
+                ElectronGood_pt:
+                    ylim:
+                    - 0.85
+                    - 1
+                ht:
+                    ylim:
+                    - 0.4
+                    - 1.2
+                nJets:
+                    ylim:
+                    - 0.4
+                    - 1.2
+            Ele32_EleHT_pass_highHT:
+                ElectronGood_eta:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_etaSC:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_phi:
+                    ylim:
+                    - 0
+                    - 1
+                ElectronGood_pt:
+                    ylim:
+                    - 0.85
+                    - 1
+                ht:
+                    ylim:
+                    - 0.4
+                    - 1.2
+                nJets:
+                    ylim:
+                    - 0.4
+                    - 1.2
+            Ele32_EleHT_pass_lowHT:
+                ElectronGood_eta:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_etaSC:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_phi:
+                    ylim:
+                    - 0
+                    - 1
+                ElectronGood_pt:
+                    ylim:
+                    - 0.85
+                    - 1
+                ht:
+                    ylim:
+                    - 0.4
+                    - 1.2
+                nJets:
+                    ylim:
+                    - 0.4
+                    - 1.2
+        '2017':
+            Ele32_EleHT_pass:
+                ElectronGood_eta:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_etaSC:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_phi:
+                    ylim:
+                    - 0
+                    - 1
+                ElectronGood_pt:
+                    ylim:
+                    - 0.85
+                    - 1
+                ht:
+                    ylim:
+                    - 0.5
+                    - 1.1
+                nJets:
+                    ylim:
+                    - 0.5
+                    - 1.1
+            Ele32_EleHT_pass_highHT:
+                ElectronGood_eta:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_etaSC:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_phi:
+                    ylim:
+                    - 0
+                    - 1
+                ElectronGood_pt:
+                    ylim:
+                    - 0.85
+                    - 1
+                ht:
+                    ylim:
+                    - 0.5
+                    - 1.1
+                nJets:
+                    ylim:
+                    - 0.5
+                    - 1.1
+            Ele32_EleHT_pass_lowHT:
+                ElectronGood_eta:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_etaSC:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_phi:
+                    ylim:
+                    - 0
+                    - 1
+                ElectronGood_pt:
+                    ylim:
+                    - 0.85
+                    - 1
+                ht:
+                    ylim:
+                    - 0.5
+                    - 1.1
+                nJets:
+                    ylim:
+                    - 0.5
+                    - 1.1
+        '2018':
+            Ele32_EleHT_pass:
+                ElectronGood_eta:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_etaSC:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_phi:
+                    ylim:
+                    - 0
+                    - 1
+                ElectronGood_pt:
+                    ylim:
+                    - 0.85
+                    - 1
+                ht:
+                    ylim:
+                    - 0.5
+                    - 1.1
+                nJets:
+                    ylim:
+                    - 0.5
+                    - 1.1
+            Ele32_EleHT_pass_highHT:
+                ElectronGood_eta:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_etaSC:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_phi:
+                    ylim:
+                    - 0
+                    - 1
+                ElectronGood_pt:
+                    ylim:
+                    - 0.85
+                    - 1
+                ht:
+                    ylim:
+                    - 0.5
+                    - 1.1
+                nJets:
+                    ylim:
+                    - 0.5
+                    - 1.1
+            Ele32_EleHT_pass_lowHT:
+                ElectronGood_eta:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_etaSC:
+                    ylim:
+                    - 0.8
+                    - 1.2
+                ElectronGood_phi:
+                    ylim:
+                    - 0
+                    - 1
+                ElectronGood_pt:
+                    ylim:
+                    - 0.85
+                    - 1
+                ht:
+                    ylim:
+                    - 0.5
+                    - 1.1
+                nJets:
+                    ylim:
+                    - 0.5
+                    - 1.1

@@ -1,0 +1,42 @@
+plotting_style:
+    patch_opts:
+        data:
+            label: Data efficiency
+            vmax: 1.0
+            vmin: 0.3
+        mc:
+            label: MC efficiency
+            vmax: 1.0
+            vmin: 0.3
+        ratio_sf:
+            label: ratio SF var./nom.
+            vmax: 1.05
+            vmin: 0.95
+        sf:
+            label: Trigger SF
+            vmax: 1.4
+            vmin: 0.7
+        unc_data:
+            label: Data eff. unc.
+            vmax: 0.1
+            vmin: 0.0
+        unc_mc:
+            label: MC eff. unc.
+            vmax: 0.03
+            vmin: 0.0
+        unc_rel_data:
+            label: Data eff. unc.
+            vmax: 0.1
+            vmin: 0.0
+        unc_rel_mc:
+            label: MC eff. unc.
+            vmax: 0.03
+            vmin: 0.0
+        unc_rel_sf:
+            label: Trigger SF unc.
+            vmax: 0.1
+            vmin: 0.0
+        unc_sf:
+            label: Trigger SF unc.
+            vmax: 0.1
+            vmin: 0.0
