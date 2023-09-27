@@ -39,4 +39,4 @@ class Runner(TaskBase):
         return law.LocalFileTarget(os.path.join(self.output_dir, "output_all.coffea"))
 
     def run(self):
-        print("Running runner.py....")
+        os.system(f"runner.py --cfg {self.cfg} -o {self.output_dir} --full --test -lf 1")
