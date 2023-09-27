@@ -8,20 +8,21 @@ from pocket_coffea.utils.dataset import build_datasets
 
 class TaskBase(law.Task):
     
-    cfg = luigi.Parameter()
+    cfg = luigi.Parameter(description="Config file with parameters specific to the current run")
 
 class CreateDataset(TaskBase):
 
-    keys = luigi.TupleParameter(default=[], description="Keys of the datasets to be created. If None, the keys are read from the datasets definition file.")
-    download = luigi.BoolParameter(default=False, description="If True, the datasets are downloaded from the DAS.")
-    overwrite = luigi.BoolParameter(default=False, description="If True, existing .json datasets are overwritten.")
-    check = luigi.BoolParameter(default=False, description="If True, the existence of the datasets is checked.")
-    split_by_year = luigi.BoolParameter(default=False, description="If True, the datasets are split by year.")
-    local_prefix = luigi.Parameter(default="", description="Prefix of the local path where the datasets are stored.")
-    whitelist_sites = luigi.TupleParameter(default=[], description="List of sites to be whitelisted.")
-    blacklist_sites = luigi.TupleParameter(default=[], description="List of sites to be blacklisted.")
-    regex_sites = luigi.Parameter(default="", description="Regex string to be used to filter the sites.")
-    parallelize = luigi.IntParameter(default=4, description="Number of parallel processes to be used to fetch the datasets.")
+    keys = luigi.TupleParameter(default=[], description="Keys of the datasets to be created. If None, the keys are read from the datasets definition file")
+    datasets_definition = luigi.Parameter(description="Datasets definition file")
+    download = luigi.BoolParameter(default=False, description="If True, the datasets are downloaded from the DAS")
+    overwrite = luigi.BoolParameter(default=False, description="If True, existing .json datasets are overwritten")
+    check = luigi.BoolParameter(default=False, description="If True, the existence of the datasets is checked")
+    split_by_year = luigi.BoolParameter(default=False, description="If True, the datasets are split by year")
+    local_prefix = luigi.Parameter(default="", description="Prefix of the local path where the datasets are stored")
+    whitelist_sites = luigi.TupleParameter(default=[], description="List of sites to be whitelisted")
+    blacklist_sites = luigi.TupleParameter(default=[], description="List of sites to be blacklisted")
+    regex_sites = luigi.Parameter(default="", description="Regex string to be used to filter the sites")
+    parallelize = luigi.IntParameter(default=4, description="Number of parallel processes to be used to fetch the datasets")
 
     def read_datasets_definition(self):
         with open(os.path.abspath(self.cfg), "r") as f:
