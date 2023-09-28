@@ -6,7 +6,7 @@ import json
 import logging
 
 from pocket_coffea.utils.dataset import build_datasets
-from pocket_coffea.utils.run import DaskRunner, IterativeRunner
+from pocket_coffea.utils.run import DaskRunner, IterativeRunner, get_runner
 from pocket_coffea.utils import utils
 from pocket_coffea.utils.configurator import Configurator
 from coffea import processor
@@ -82,7 +82,7 @@ class Runner(TaskBase):
     output_dir = luigi.Parameter(default=os.path.join(os.getcwd(), "test"))
     test = luigi.BoolParameter(default=False, description="Run with limit 1 interactively")
     limit_files = luigi.IntParameter(default=None, description="Limit number of files")
-    limit_chunks = luigi.IntParameter(default=None, description="Limit number of chunks") # FIXME: check that this None actually wroks
+    limit_chunks = luigi.IntParameter(default=None, description="Limit number of chunks")
     executor = luigi.ChoiceParameter(
         choices=["iterative", "futures", "dask", "parsl"],
         default="iterative",
@@ -131,24 +131,15 @@ class Runner(TaskBase):
         self.load_config()
         self.load_run_options()
 
-        if self.executor == "iterative":
-            if self.architecture != "local":
-                raise ValueError("Iterative executor can only be used with local architecture")
-            runner = IterativeRunner(
-                architecture=self.architecture,
-                output_dir=self.output_dir,
-                run_options=self.run_options,
-                loglevel=self.loglevel,
-                )
-        if self.executor == "dask":
-            runner = DaskRunner(
-                architecture=self.architecture,
-                output_dir=self.output_dir,
-                run_options=self.run_options,
-                loglevel=self.loglevel,
-                )
-        elif self.executor == "parsl":
-            raise NotImplementedError
+        assert self.executor != "iterative" or self.architecture == "local", "Iterative executor can only be used with local architecture"
+
+        runner = get_runner(self.executor)(
+            architecture=self.architecture,
+            output_dir=self.output_dir,
+            run_options=self.run_options,
+            loglevel=self.loglevel,
+            )
+
         runner.run(
             self.filesets,
             self.processor_instance,
