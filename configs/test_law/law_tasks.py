@@ -3,14 +3,37 @@ import os
 import luigi
 import law
 import json
+import logging
 
 from pocket_coffea.utils.dataset import build_datasets
-from pocket_coffea.utils.run import DaskRunner
+from pocket_coffea.utils.run import DaskRunner, IterativeRunner
+from pocket_coffea.utils import utils
+from pocket_coffea.utils.configurator import Configurator
+from coffea import processor
 
 class TaskBase(law.Task):
     
     cfg = luigi.Parameter(description="Config file with parameters specific to the current run")
     datasets_definition = luigi.Parameter(description="Datasets definition file")
+
+    def load_config(self):
+        config_module =  utils.path_import(self.cfg)
+        try:
+            config = config_module.cfg
+            logging.info(config)
+            config.save_config(self.output_dir)
+
+        except AttributeError as e:
+            print("Error: ", e)
+            raise("The provided configuration module does not contain a `cfg` attribute of type Configurator. Please check your configuration!")
+
+        if not isinstance(config, Configurator):
+            raise("The configuration module attribute `cfg` is not of type Configurator. Please check yuor configuration!")
+
+        #TODO improve the run options config
+        self.cfg = config
+        self.run_options = config_module.run_options
+        self.processor_instance = config.processor_instance
 
 class CreateDataset(TaskBase):
 
@@ -68,9 +91,33 @@ class Runner(TaskBase):
         choices=["slurm", "condor", "local"],
         default="local",
         description="Overwrite architecture from config")
-    scaleout = luigi.IntParameter(default=0, description="Overwrite scalout config")
+    scaleout = luigi.IntParameter(default=None, description="Overwrite scalout config")
     loglevel = luigi.Parameter(default="INFO", description="Logging level")
     full = luigi.BoolParameter(default=False, description="Process all datasets at the same time")
+
+    @property
+    def filesets(self):
+        return self.cfg.filesets
+
+    def load_run_options(self):
+        if self.test:
+            self.run_options["executor"] = self.executor if self.executor else "iterative"
+            self.run_options["limit"] = self.limit_files if self.limit_files else 1
+            self.run_options["max"] = self.limit_chunks if self.limit_chunks else 2
+            self.cfg.filter_dataset(self.run_options["limit"])
+
+        if self.limit_files != None:
+            self.run_options["limit"] = self.limit_files
+            self.cfg.filter_dataset(self.run_options["limit"])
+
+        if self.limit_chunks != None:
+            self.run_options["max"] = self.limit_chunks
+
+        if self.scaleout != None:
+            self.run_options["scaleout"] = self.scaleout
+
+        if self.executor != None:
+            self.run_options["executor"] = self.executor
 
     def requires(self):
         return CreateDataset.req(self)
@@ -80,26 +127,31 @@ class Runner(TaskBase):
         return [law.LocalFileTarget(file) for file in required_files]
 
     def run(self):
+
+        self.load_config()
+        self.load_run_options()
+
         if self.executor == "iterative":
             if self.architecture != "local":
                 raise ValueError("Iterative executor can only be used with local architecture")
-            raise NotImplementedError
-            # runner = IterativeRunner(
-            #     architecture=self.architecture,
-            #     output_dir=self.output_dir,
-            #     cfg=self.cfg,
-            #     loglevel=self.loglevel,
-            #     )
+            runner = IterativeRunner(
+                architecture=self.architecture,
+                output_dir=self.output_dir,
+                run_options=self.run_options,
+                loglevel=self.loglevel,
+                )
         if self.executor == "dask":
             runner = DaskRunner(
                 architecture=self.architecture,
                 output_dir=self.output_dir,
-                cfg=self.cfg,
+                run_options=self.run_options,
                 loglevel=self.loglevel,
                 )
         elif self.executor == "parsl":
             raise NotImplementedError
         runner.run(
+            self.filesets,
+            self.processor_instance,
             full=self.full,
             test=self.test,
             limit_files=self.limit_files,
