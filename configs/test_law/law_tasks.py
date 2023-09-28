@@ -1,22 +1,30 @@
 import os
-
-import luigi
-import law
 import json
 import logging
 
+import luigi
+import law
+
+law.contrib.load("tasks")  # to have the RunOnceTask
+
+from omegaconf import OmegaConf
+from coffea.util import load
+
+from pocket_coffea.parameters import defaults
 from pocket_coffea.utils.dataset import build_datasets
-from pocket_coffea.utils.run import DaskRunner, IterativeRunner, get_runner
+from pocket_coffea.utils.run import get_runner
 from pocket_coffea.utils import utils
 from pocket_coffea.utils.configurator import Configurator
-from coffea import processor
+from pocket_coffea.utils.plot_utils import PlotManager
 
 class TaskBase(law.Task):
     
     cfg = luigi.Parameter(description="Config file with parameters specific to the current run")
-    datasets_definition = luigi.Parameter(description="Datasets definition file")
+    output_dir = luigi.Parameter(default=os.path.join(os.getcwd(), "test"))
 
     def load_config(self):
+        self.output_dir = os.path.abspath(self.output_dir)
+        os.makedirs(self.output_dir, exist_ok=True)
         config_module =  utils.path_import(self.cfg)
         try:
             config = config_module.cfg
@@ -35,8 +43,9 @@ class TaskBase(law.Task):
         self.run_options = config_module.run_options
         self.processor_instance = config.processor_instance
 
-class CreateDataset(TaskBase):
+class CreateDataset(law.Task):
 
+    datasets_definition = luigi.Parameter(default=os.path.abspath("datasets/datasets_definitions_example.json"), description="Datasets definition file")
     keys = luigi.TupleParameter(default=[], description="Keys of the datasets to be created. If None, the keys are read from the datasets definition file")
     download = luigi.BoolParameter(default=False, description="If True, the datasets are downloaded from the DAS")
     overwrite = luigi.BoolParameter(default=False, description="If True, existing .json datasets are overwritten")
@@ -79,7 +88,6 @@ class CreateDataset(TaskBase):
 
 class Runner(TaskBase):
 
-    output_dir = luigi.Parameter(default=os.path.join(os.getcwd(), "test"))
     test = luigi.BoolParameter(default=False, description="Run with limit 1 interactively")
     limit_files = luigi.IntParameter(default=None, description="Limit number of files")
     limit_chunks = luigi.IntParameter(default=None, description="Limit number of chunks")
@@ -123,7 +131,7 @@ class Runner(TaskBase):
         return CreateDataset.req(self)
 
     def output(self):
-        required_files = [os.path.join(self.output_dir, "output_all.coffea"), os.path.join(self.output_dir, "parameters_dump.yaml")]
+        required_files = [os.path.join(os.path.abspath(self.output_dir), filename) for filename in ["output_all.coffea", "parameters_dump.yaml"]]
         return [law.LocalFileTarget(file) for file in required_files]
 
     def run(self):
@@ -135,7 +143,7 @@ class Runner(TaskBase):
 
         runner = get_runner(self.executor)(
             architecture=self.architecture,
-            output_dir=self.output_dir,
+            output_dir=os.path.abspath(self.output_dir),
             run_options=self.run_options,
             loglevel=self.loglevel,
             )
@@ -150,9 +158,15 @@ class Runner(TaskBase):
             scaleout=self.scaleout,
         )
 
-class Plotter(TaskBase):
+class Plotter(TaskBase, law.tasks.RunOnceTask):
 
-    output_dir = luigi.Parameter(default=os.path.join(os.getcwd(), "test"))
+    plot_dir = luigi.Parameter(default="plots", description="Output folder")
+    overwrite_parameters = luigi.Parameter(default=None, description="YAML file with plotting parameters to overwrite default parameters")
+    workers_plotting = luigi.IntParameter(default=8, description="Number of parallel workers to use for plotting")
+    log = luigi.BoolParameter(default=False, description="Set y-axis scale to log")
+    density = luigi.BoolParameter(default=False, description="Set density parameter to have a normalized plot")
+    only_cat = luigi.TupleParameter(default=[], description='Filter categories with string')
+
 
     def requires(self):
         return Runner.req(self)
@@ -161,14 +175,38 @@ class Plotter(TaskBase):
         # Here we should define the list of the output files of plots
         pass
 
-    run_plots = False
-    def complete(self):
-        if self.run_plots == True:
-            return True
-        else:
-            return False
-
     def run(self):
-        config_dir = os.path.abspath(os.path.dirname(self.cfg))
-        os.system(f"make_plots.py --cfg {self.output_dir}/parameters_dump.yaml -op {config_dir}/params/plotting_style.yaml -i {self.output_dir}/output_all.coffea -o {self.output_dir}/plots -j 8")
-        self.run_plots = True
+        output_coffea, parameters_dump = [inp.abspath for inp in self.input()]
+
+        if self.overwrite_parameters == None:
+            parameters = OmegaConf.load(parameters_dump)
+        else:
+            parameters = defaults.merge_parameters_from_files(parameters_dump, *args.overwrite_parameters, update=True)
+
+        # Resolving the OmegaConf
+        try:
+            OmegaConf.resolve(parameters)
+        except Exception as e:
+            print("Error during resolution of OmegaConf parameters magic, please check your parameters files.")
+            raise(e)
+
+        style_cfg = parameters['plotting_style']
+
+        accumulator = load(output_coffea)
+        variables = accumulator['variables'].keys()
+        hist_objs = { v : accumulator['variables'][v] for v in variables }
+        #os.system(f"make_plots.py --cfg {os.path.abspath(self.output_dir)}/parameters_dump.yaml -op {config_dir}/params/plotting_style.yaml -i {os.path.abspath(self.output_dir)}/output_all.coffea -o {self.output_dir}/{self.plot_dir} -j 8")
+        plotter = PlotManager(
+            variables=variables,
+            hist_objs=hist_objs,
+            datasets_metadata=accumulator['datasets_metadata'],
+            plot_dir=os.path.join(self.output_dir, self.plot_dir),
+            style_cfg=style_cfg,
+            only_cat=self.only_cat,
+            workers=self.workers_plotting,
+            log=self.log,
+            density=self.density,
+            save=True
+        )
+        plotter.plot_datamc_all(syst=True, spliteras=False)
+        self.mark_complete()
