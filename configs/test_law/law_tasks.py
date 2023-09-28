@@ -57,6 +57,20 @@ class CreateDataset(TaskBase):
 class Runner(TaskBase):
 
     output_dir = luigi.Parameter(default=os.path.join(os.getcwd(), "test"))
+    test = luigi.BoolParameter(default=False, description="Run with limit 1 interactively")
+    limit_files = luigi.IntParameter(default=None, description="Limit number of files")
+    limit_chunks = luigi.IntParameter(default=None, description="Limit number of chunks") # FIXME: check that this None actually wroks
+    executor = luigi.ChoiceParameter(
+        choices=["iterative", "futures", "dask", "parsl"],
+        default="iterative",
+        description="Overwrite executor from config (to be used only with the --test options)")
+    architecture = luigi.ChoiceParameter(
+        choices=["slurm", "condor", "local"],
+        default="local",
+        description="Overwrite architecture from config")
+    scaleout = luigi.IntParameter(default=0, description="Overwrite scalout config")
+    loglevel = luigi.Parameter(default="INFO", description="Logging level")
+    full = luigi.BoolParameter(default=False, description="Process all datasets at the same time")
 
     def requires(self):
         return CreateDataset.req(self)
@@ -66,9 +80,32 @@ class Runner(TaskBase):
         return [law.LocalFileTarget(file) for file in required_files]
 
     def run(self):
-        runner = DaskRunner(architecture="slurm", output_dir=self.output_dir, cfg=self.cfg)
-        runner.run(full=True)
-        #os.system(f"runner.py --cfg {self.cfg} -o {self.output_dir} --full --test -lf 1")
+        if self.executor == "iterative":
+            if self.architecture != "local":
+                raise ValueError("Iterative executor can only be used with local architecture")
+            raise NotImplementedError
+            # runner = IterativeRunner(
+            #     architecture=self.architecture,
+            #     output_dir=self.output_dir,
+            #     cfg=self.cfg,
+            #     loglevel=self.loglevel,
+            #     )
+        if self.executor == "dask":
+            runner = DaskRunner(
+                architecture=self.architecture,
+                output_dir=self.output_dir,
+                cfg=self.cfg,
+                loglevel=self.loglevel,
+                )
+        elif self.executor == "parsl":
+            raise NotImplementedError
+        runner.run(
+            full=self.full,
+            test=self.test,
+            limit_files=self.limit_files,
+            limit_chunks=self.limit_chunks,
+            scaleout=self.scaleout,
+        )
 
 class Plotter(TaskBase):
 
