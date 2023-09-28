@@ -5,15 +5,16 @@ import law
 import json
 
 from pocket_coffea.utils.dataset import build_datasets
+from pocket_coffea.utils.run import DaskRunner
 
 class TaskBase(law.Task):
     
     cfg = luigi.Parameter(description="Config file with parameters specific to the current run")
+    datasets_definition = luigi.Parameter(description="Datasets definition file")
 
 class CreateDataset(TaskBase):
 
     keys = luigi.TupleParameter(default=[], description="Keys of the datasets to be created. If None, the keys are read from the datasets definition file")
-    datasets_definition = luigi.Parameter(description="Datasets definition file")
     download = luigi.BoolParameter(default=False, description="If True, the datasets are downloaded from the DAS")
     overwrite = luigi.BoolParameter(default=False, description="If True, existing .json datasets are overwritten")
     check = luigi.BoolParameter(default=False, description="If True, the existence of the datasets is checked")
@@ -25,7 +26,7 @@ class CreateDataset(TaskBase):
     parallelize = luigi.IntParameter(default=4, description="Number of parallel processes to be used to fetch the datasets")
 
     def read_datasets_definition(self):
-        with open(os.path.abspath(self.cfg), "r") as f:
+        with open(os.path.abspath(self.datasets_definition), "r") as f:
             return json.load(f)
     
     def output(self):
@@ -40,7 +41,7 @@ class CreateDataset(TaskBase):
     
     def run(self):
         build_datasets(
-            self.cfg,
+            self.datasets_definition,
             keys=self.keys,
             download=self.download,
             overwrite=self.overwrite,
@@ -65,7 +66,9 @@ class Runner(TaskBase):
         return [law.LocalFileTarget(file) for file in required_files]
 
     def run(self):
-        os.system(f"runner.py --cfg {self.cfg} -o {self.output_dir} --full --test -lf 1")
+        runner = DaskRunner(architecture="slurm", output_dir=self.output_dir, cfg=self.cfg)
+        runner.run(full=True)
+        #os.system(f"runner.py --cfg {self.cfg} -o {self.output_dir} --full --test -lf 1")
 
 class Plotter(TaskBase):
 
