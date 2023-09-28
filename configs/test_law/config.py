@@ -35,7 +35,8 @@ cfg = Configurator(
                   f"{localdir}/datasets/DATA_SingleMuon.json",
                     ],
         "filter" : {
-            "samples": ["ttHTobb",
+            "samples": ["TTToSemiLeptonic",
+                        "TTTo2L2Nu",
                         "DATA_SingleMuon"],
             "samples_exclude" : [],
             "year": [year]
@@ -217,7 +218,7 @@ run_options = {
         "executor"       : "dask/slurm",
         "env"            : "conda",
         "workers"        : 1,
-        "scaleout"       : 10,
+        "scaleout"       : 100,
         "worker_image"   : "/cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-cc7-latest",
         "queue"          : "short",
         "walltime"       : "00:10:00",
