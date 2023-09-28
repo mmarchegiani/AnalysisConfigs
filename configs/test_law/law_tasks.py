@@ -146,7 +146,7 @@ class Runner(TaskBase):
             output_dir=os.path.abspath(self.output_dir),
             run_options=self.run_options,
             loglevel=self.loglevel,
-            )
+        )
 
         runner.run(
             self.filesets,
@@ -171,10 +171,6 @@ class Plotter(TaskBase, law.tasks.RunOnceTask):
     def requires(self):
         return Runner.req(self)
 
-    def output(self):
-        # Here we should define the list of the output files of plots
-        pass
-
     def run(self):
         output_coffea, parameters_dump = [inp.abspath for inp in self.input()]
 
@@ -195,7 +191,6 @@ class Plotter(TaskBase, law.tasks.RunOnceTask):
         accumulator = load(output_coffea)
         variables = accumulator['variables'].keys()
         hist_objs = { v : accumulator['variables'][v] for v in variables }
-        #os.system(f"make_plots.py --cfg {os.path.abspath(self.output_dir)}/parameters_dump.yaml -op {config_dir}/params/plotting_style.yaml -i {os.path.abspath(self.output_dir)}/output_all.coffea -o {self.output_dir}/{self.plot_dir} -j 8")
         plotter = PlotManager(
             variables=variables,
             hist_objs=hist_objs,
