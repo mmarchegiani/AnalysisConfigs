@@ -161,7 +161,7 @@ class Runner(TaskBase):
 class Plotter(TaskBase, law.tasks.RunOnceTask):
 
     plot_dir = luigi.Parameter(default="plots", description="Output folder")
-    overwrite_parameters = luigi.Parameter(default=None, description="YAML file with plotting parameters to overwrite default parameters")
+    overwrite_parameters = luigi.Parameter(default="params/plotting_style.yaml", description="YAML file with plotting parameters to overwrite default parameters")
     workers_plotting = luigi.IntParameter(default=8, description="Number of parallel workers to use for plotting")
     log = luigi.BoolParameter(default=False, description="Set y-axis scale to log")
     density = luigi.BoolParameter(default=False, description="Set density parameter to have a normalized plot")
@@ -172,12 +172,14 @@ class Plotter(TaskBase, law.tasks.RunOnceTask):
         return Runner.req(self)
 
     def run(self):
-        output_coffea, parameters_dump = [inp.abspath for inp in self.input()]
+        output_coffea, output_parameters_dump = [inp.abspath for inp in self.input()]
+
+        parameters_dump = OmegaConf.load(output_parameters_dump)
 
         if self.overwrite_parameters == None:
-            parameters = OmegaConf.load(parameters_dump)
+            parameters = parameters_dump
         else:
-            parameters = defaults.merge_parameters_from_files(parameters_dump, *args.overwrite_parameters, update=True)
+            parameters = defaults.merge_parameters_from_files(parameters_dump, self.overwrite_parameters, update=True)
 
         # Resolving the OmegaConf
         try:
