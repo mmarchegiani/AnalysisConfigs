@@ -221,7 +221,7 @@ run_options = {
         "worker_image"   : "/cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-cc7-latest",
         "queue"          : "short",
         "walltime"       : "00:10:00",
-        "mem_per_worker" : "1GB", # GB
+        "mem_per_worker" : "4GB", # GB
         "disk_per_worker" : "1GB", # GB
         "exclusive"      : False,
         "chunk"          : 200000,
