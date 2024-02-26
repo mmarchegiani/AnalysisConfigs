@@ -25,12 +25,12 @@ if __name__ == '__main__':
 
     # Start LocalCluster
     cluster = LocalCluster(
-    	n_workers=1,
-    	memory_limit="4GiB",
-    	processes=True,
-    	threads_per_worker=1,
-    #	scheduler_port=8786
-    #	asynchronous=True
+        n_workers=1,
+        memory_limit="4GiB",
+        processes=True,
+        threads_per_worker=1,
+#        scheduler_port=8786
+#        asynchronous=True
     )
 
     cluster.scale(args.workers)
