@@ -9,7 +9,7 @@ object_preselection:
     pt: 15
     eta: 2.4
     iso: 0.06
-    id: mvaFall17V2Iso_WP80
+    id: mvaIso_WP80
 
   Jet:
     dr_lepton: 0.4
