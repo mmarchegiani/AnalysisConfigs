@@ -1,93 +1,147 @@
 {
-    "DYJetsToLL_M-50":{
+   "DYJetsToLL_M-50":{
+      
         "sample": "DYJetsToLL",
         "json_output"    : "datasets/DYJetsToLL_M-50.json",
         "files":[
-            { "das_names": ["/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"],
+            { "das_names": ["/DYto2E-2Jets_Bin-MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/RunIII2024Summer24NanoAODv15-JMENanoV15_150X_mcRun3_2024_realistic_v2-v1/NANOAODSIM"
+              ],
               "metadata": {
-                  "year":"2018",
+                  "year":"2025",
                   "isMC": true,
-		  "xsec": 6077.22
-              }
+    		      "xsec": 2244,
+                  "part": "2E"
+                  }
+            },
+            { "das_names": ["/DYto2Mu-2Jets_Bin-MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/RunIII2024Summer24NanoAODv15-JMENanoV15_150X_mcRun3_2024_realistic_v2-v1/NANOAODSIM"
+              ],
+              "metadata": {
+                  "year":"2025",
+                  "isMC": true,
+                  "xsec": 2240,
+                  "part": "2Mu"
+                  }
+            },
+            { "das_names": ["/DYto2Tau-2Jets_Bin-MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/RunIII2024Summer24NanoAODv15-JMENanoV15_150X_mcRun3_2024_realistic_v2-v1/NANOAODSIM"
+              ],
+              "metadata": {
+                  "year":"2025",
+                  "isMC": true,
+                  "xsec": 2219,
+                  "part": "2Tau"
+                  }
             }
         ]
   },
-
-    
-    "DATA_SingleMuon": {
-        "sample": "DATA_SingleMuon",
-        "json_output": "datasets/DATA_SingleMuon.json",
+    "DATA_Muon": {
+        "sample": "DATA_Muon",
+        "json_output": "datasets/DATA_Muon.json",
         "files": [
-            {
+             {
                 "das_names": [
-                    "/SingleMuon/Run2018A-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD"
+                    "/Muon0/Run2025B-PromptReco-v1/NANOAOD",
+                    "/Muon1/Run2025B-PromptReco-v1/NANOAOD"
                 ],
                 "metadata": {
-                    "year": "2018",
+                    "year": "2025",
                     "isMC": false,
-                    "primaryDataset": "SingleMuon",
-                    "era": "A"
-                },
-                "das_parents_names": [
-                    "/SingleMuon/Run2018A-UL2018_MiniAODv2-v3/MINIAOD"
-                ]
-            },
-            {
-                "das_names": [
-                    "/SingleMuon/Run2018B-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD"
-                ],
-                "metadata": {
-                    "year": "2018",
-                    "isMC": false,
-                    "primaryDataset": "SingleMuon",
+                    "primaryDataset": "Muon",
                     "era": "B"
                 },
                 "das_parents_names": [
-                    "/SingleMuon/Run2018B-UL2018_MiniAODv2-v2/MINIAOD"
+                    "/Muon0/Run2025B-PromptReco-v1/MINIAOD",
+                    "/Muon1/Run2025B-PromptReco-v1/MINIAOD"
                 ]
             },
-            {
+            {  
                 "das_names": [
-                    "/SingleMuon/Run2018C-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD"
+                    "/Muon0/Run2025C-PromptReco-v1/NANOAOD",
+                    "/Muon0/Run2025C-PromptReco-v2/NANOAOD",
+                    "/Muon1/Run2025C-PromptReco-v1/NANOAOD",
+                    "/Muon1/Run2025C-PromptReco-v2/NANOAOD"
                 ],
                 "metadata": {
-                    "year": "2018",
+                    "year": "2025",
                     "isMC": false,
-                    "primaryDataset": "SingleMuon",
+                    "primaryDataset": "Muon",
                     "era": "C"
                 },
                 "das_parents_names": [
-                    "/SingleMuon/Run2018C-UL2018_MiniAODv2-v2/MINIAOD"
+                    "/Muon0/Run2025C-PromptReco-v1/MINIAOD",
+                    "/Muon0/Run2025C-PromptReco-v2/MINIAOD",
+                    "/Muon1/Run2025C-PromptReco-v1/MINIAOD",
+                    "/Muon1/Run2025C-PromptReco-v2/MINIAOD"
                 ]
             },
-            {
+            { 
                 "das_names": [
-                    "/SingleMuon/Run2018D-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"
+                    "/Muon0/Run2025D-PromptReco-v1/NANOAOD",
+                    "/Muon1/Run2025D-PromptReco-v1/NANOAOD"
                 ],
                 "metadata": {
-                    "year": "2018",
+                    "year": "2025",
                     "isMC": false,
-                    "primaryDataset": "SingleMuon",
+                    "primaryDataset": "Muon",
                     "era": "D"
                 },
                 "das_parents_names": [
-                    "/SingleMuon/Run2018D-UL2018_MiniAODv2-v3/MINIAOD"
+                    "/Muon0/Run2025D-PromptReco-v1/MINIAOD",
+                    "/Muon1/Run2025D-PromptReco-v1/MINIAOD"
                 ]
             },
-            {
+            { 
                 "das_names": [
-                    "/SingleMuon/Run2017B-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"
+                    "/Muon0/Run2025E-PromptReco-v1/NANOAOD",
+                    "/Muon1/Run2025E-PromptReco-v1/NANOAOD"
                 ],
                 "metadata": {
-                    "year": "2017",
+                    "year": "2025",
                     "isMC": false,
-                    "primaryDataset": "SingleMuon",
-                    "era": "B"
+                    "primaryDataset": "Muon",
+                    "era": "E"
                 },
                 "das_parents_names": [
-                    "/SingleMuon/Run2017B-UL2017_MiniAODv2-v1/MINIAOD"
+                    "/Muon0/Run2025E-PromptReco-v1/MINIAOD",
+                    "/Muon1/Run2025E-PromptReco-v1/MINIAOD"
+                ]
+            },
+            { 
+                "das_names": [
+                    "/Muon0/Run2025F-PromptReco-v1/NANOAOD",
+                    "/Muon0/Run2025F-PromptReco-v2/NANOAOD",
+                    "/Muon1/Run2025F-PromptReco-v1/NANOAOD",
+                    "/Muon1/Run2025F-PromptReco-v2/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2025",
+                    "isMC": false,
+                    "primaryDataset": "Muon",
+                    "era": "F"
+                },
+                "das_parents_names": [
+                    "/Muon0/Run2025F-PromptReco-v1/MINIAOD",
+                    "/Muon0/Run2025F-PromptReco-v2/MINIAOD",
+                    "/Muon1/Run2025F-PromptReco-v1/MINIAOD",
+                    "/Muon1/Run2025F-PromptReco-v2/MINIAOD"
+                ]
+            },
+            { 
+                "das_names": [
+                    "/Muon0/Run2025G-PromptReco-v1/NANOAOD",
+                    "/Muon1/Run2025G-PromptReco-v1/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2025",
+                    "isMC": false,
+                    "primaryDataset": "Muon",
+                    "era": "G"
+                },
+                "das_parents_names": [
+                    "/Muon0/Run2025G-PromptReco-v1/MINIAOD",
+                    "/Muon1/Run2025G-PromptReco-v1/MINIAOD"
                 ]
             }
+
         ]
     }
 }

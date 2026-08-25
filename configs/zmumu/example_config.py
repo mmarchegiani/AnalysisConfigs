@@ -19,7 +19,16 @@ localdir = os.path.dirname(os.path.abspath(__file__))
 
 # Loading default parameters
 from pocket_coffea.parameters import defaults
-default_parameters = defaults.get_default_parameters()
+
+default_parameters = defaults.get_default_parameters(group_tags=
+    {
+        "LUM":{ 
+            "Run3-25Prompt-Summer24-NanoAODv15": "prelim"
+        }
+    }
+)
+
+
 defaults.register_configuration_dir("config_dir", localdir+"/params")
 
 parameters = defaults.merge_parameters_from_files(default_parameters,
@@ -28,28 +37,25 @@ parameters = defaults.merge_parameters_from_files(default_parameters,
                                                   f"{localdir}/params/plotting.yaml",
                                                   update=True)
 
-
-
 cfg = Configurator(
     parameters = parameters,
     datasets = {
-        "jsons": [f"{localdir}/datasets/DATA_SingleMuon.json",
+        "jsons": [f"{localdir}/datasets/DATA_Muon.json",
                   f"{localdir}/datasets/DYJetsToLL_M-50.json"
                     ],
         "filter" : {
-            "samples": ["DATA_SingleMuon",
+            "samples": ["DATA_Muon",
                         "DYJetsToLL"],
             "samples_exclude" : [],
-            "year": ['2018']
+            "year": ['2025']
         }
     },
 
     workflow = ZmumuBaseProcessor,
-
     skim = [get_nPVgood(1), eventFlags, goldenJson, # basic skims
             get_nObj_min(1, 18., "Muon"),
-            # Asking only SingleMuon triggers since we are only using SingleMuon PD data
-            get_HLTsel(primaryDatasets=["SingleMuon"])], 
+            # Asking only Muon triggers since we are only using Muon PD data
+            get_HLTsel(primaryDatasets=["Muon"])], 
     
     preselections = [dimuon_presel],
     categories = {
